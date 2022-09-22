@@ -26,17 +26,20 @@ print(Fore.CYAN+"""
 :: : :     :         : :  :      :     :     :           :      : :  :     :: :  : :     : :  :   
                                                                                                   """+Fore.RESET)
 
-print(Fore.LIGHTRED_EX+"                                    https://t.me/terminaluwuu-Terminal#2074  "+Fore.RESET)
+print(Fore.LIGHTRED_EX+"                                    https://t.me/terminaluwuu-Terminal#1337  "+Fore.RESET)
 # proxy_method = input(Fore.LIGHTMAGENTA_EX+"Proxy Method[>] "+Fore.RESET)
 threadCount = int(input(Fore.LIGHTMAGENTA_EX+"Number of Threads[>] "+Fore.RESET))
 
 with open("proxies.txt") as fp:
     proxy_list = fp.read().splitlines()
 
-
+success_count = 0
+error_count = 0
 def Gen():
+
     
-    # global proxy_val
+    global success_count
+    global error_count
     global gender_val
     global birth_date
     birth_date = str(utils.getyear())+"-11-02"
@@ -45,9 +48,9 @@ def Gen():
     email_val = utils.email() + random.choice(email_domains)
     user_name = utils.user()
     gender_val = random.choice(gender)
-    if config['proxied'] == True:
+    if config['proxied'] == 'True':
         proxy_val = "http://"+str(random.choice(proxy_list))
-    elif config['proxied'] == False:
+    elif config['proxied'] == 'False':
         proxy_val = None
 
 
@@ -107,15 +110,17 @@ def Gen():
     elif gender_val == '2':
         gender_info = "Female"
     try:
-
-        r = httpx.post('https://spclient.wg.spotify.com/signup/public/v2/account/create',headers=header,json=payload,proxies=proxy_val,timeout=None)
-        if r.status_code == 200:
-            print(Fore.GREEN+"Account Created - Email: "+email_val+'| Password: '+config['password']+'| Gender: '+gender_info+'| DOB: '+birth_date+Fore.RESET)
-            f = open('accounts.txt','a')
-            f.write(email_val+':'+config["password"]+':'+gender_info +':'+birth_date +'\n')
-            f.close()
+        r = httpx.post('https://spclient.wg.spotify.com/signup/public/v2/account/create',headers=header,json=payload,proxies=proxy_val,timeout=None).json()
+        #print(r)
+        print(Fore.GREEN+"Account Created - Email: "+email_val+'| Password: '+config['password']+'| Gender: '+gender_info+'| DOB: '+birth_date+Fore.RESET)
+        file = open('accounts.txt','a')
+        file.write(email_val+':'+config['password']+':'+gender_info+':'+birth_date+'\n')
+        file.close()
+        success_count += 1
+        os.system('title SpotifyUwU [Now Generating] Support : Terminal#1337 - Success: '+str(success_count)+'Error: '+str(error_count))
         Gen()
     except Exception as e:
+        os.system('title SpotifyUwU [Now Generating] Support : @terminaluwu - Terminal#1337 - Success: '+success_count+' Error: '+error_count)
         Gen()
     
 
