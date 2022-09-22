@@ -7,7 +7,7 @@ from time import gmtime
 
 def email():
     pass
-    mail = res = ''.join(random.choices(string.ascii_uppercase +string.digits, k = 7))
+    mail = res = ''.join(random.choices(string.ascii_lowercase +string.digits, k = 7))
     return mail
 def user():
     useru = requests.get("http://apis.kahoot.it/namerator")
